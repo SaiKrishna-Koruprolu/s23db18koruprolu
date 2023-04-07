@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  - var results=[{Model:"battleship", yearofmanufacturing : 2022,color:"Red"},{Model:"cruiser",yearofmanufacturing:2011,color:"Silver"},{Model:"destroyer",yearofmanufacturing:2023,color:"Blue"}];
+    
+  
+  div(class="container-fluid")
+   div(class="row")
+    each item,index  in results
+     div(class="col-sm-2" onclick=`buy(${index})`) Model is #{item.Model} <br /> Year of Manufacturing is #{item.yearofmanufacturing} <br /> color is #{item.color}
+
+  script.
+   function buy(x) 
+   {
+     alert(`You purchased item ${x}`)
+   }
