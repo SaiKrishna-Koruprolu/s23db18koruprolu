@@ -8,7 +8,11 @@ var mongoose = require('mongoose');
 
 var mongodb = require('mongodb');
 
+var session = require('express-session');
+
 var cookieParser = require('cookie-parser');
+
+var passportLocalMongoose = require('passport-local-mongoose');
 
 var logger = require('morgan');
 
@@ -61,9 +65,8 @@ var indexRouter = require('./routes/index');
 
 var usersRouter = require('./routes/users');
 
-var appRouter = require('./routes/ship');
+var appRouter = require('./routes/ship'); //var gridbuildRouter = require('./routes/gridbuild');
 
-var gridbuildRouter = require('./routes/gridbuild');
 
 var selectorRouter = require('./routes/selector');
 
@@ -89,8 +92,8 @@ app.use(passport.session());
 app.use(express["static"](path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/ship', appRouter);
-app.use('/gridbuild', gridbuildRouter);
+app.use('/ship', appRouter); //app.use('/gridbuild', gridbuildRouter);
+
 app.use('/selector', selectorRouter);
 app.use('/resource', resourceRouter); // passport config 
 // Use the existing connection 
@@ -113,8 +116,8 @@ function recreateDB() {
 
         case 2:
           instance1 = new ship({
-            Model: "Hyndai Sonata",
-            yearofmanufacturing: 2018,
+            Model: "battleship",
+            yearofmanufacturing: 2022,
             color: "Red"
           });
           instance1.save().then(function (doc) {
@@ -123,8 +126,8 @@ function recreateDB() {
             console.error(err);
           });
           instance2 = new ship({
-            Model: "crysler",
-            yearofmanufacturing: 2019,
+            Model: "cruiser",
+            yearofmanufacturing: 2011,
             color: "silver"
           });
           instance2.save().then(function (doc) {
@@ -133,8 +136,8 @@ function recreateDB() {
             console.error(err);
           });
           instance3 = new ship({
-            Model: " Honda",
-            yearofmanufacturing: 2020,
+            Model: " destroyer",
+            yearofmanufacturing: 2023,
             color: " Blue"
           });
           instance3.save().then(function (doc) {

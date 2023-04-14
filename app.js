@@ -2,7 +2,9 @@ var express = require('express');
 var path = require('path');
 var mongoose = require('mongoose');
 var mongodb = require('mongodb');
+const session = require('express-session');
 var cookieParser = require('cookie-parser');
+const passportLocalMongoose = require('passport-local-mongoose');
 var logger = require('morgan');
 var passport = require('passport'); 
 const LocalStrategy = require('passport-local').Strategy;
@@ -39,7 +41,7 @@ db.once("open", function () {
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var appRouter = require('./routes/ship');
-var gridbuildRouter = require('./routes/gridbuild');
+//var gridbuildRouter = require('./routes/gridbuild');
 var selectorRouter = require('./routes/selector');
 var resourceRouter = require('./routes/resource');
 
@@ -66,7 +68,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/ship', appRouter);
-app.use('/gridbuild', gridbuildRouter);
+//app.use('/gridbuild', gridbuildRouter);
 app.use('/selector', selectorRouter);
 app.use('/resource', resourceRouter);
 // passport config 
@@ -83,20 +85,20 @@ async function recreateDB(){
  // Delete everything
  await ship.deleteMany();
  let instance1 = new
-ship({Model:"Hyndai Sonata", yearofmanufacturing:2018,color:"Red"});
+ship({Model:"battleship", yearofmanufacturing:2022,color:"Red"});
  instance1.save().then(doc=> {
  console.log("First ship details saved")}
  ).catch(err=>{
   console.error(err)})
  let instance2 = new
- ship({Model:"crysler", yearofmanufacturing:2019,color:"silver"});
+ ship({Model:"cruiser", yearofmanufacturing:2011,color:"silver"});
  instance2.save().then(doc=> {
   console.log("Second ship details saved")}
   ).catch(err=>{
    console.error(err)})
   
   let instance3 = new
-  ship({Model:" Honda", yearofmanufacturing:2020,color:" Blue"});
+  ship({Model:" destroyer", yearofmanufacturing:2023,color:" Blue"});
   instance3.save().then(doc=> {
     console.log("Third ship details saved")}
     ).catch(err=>{
