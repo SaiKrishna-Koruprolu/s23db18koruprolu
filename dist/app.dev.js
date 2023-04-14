@@ -1,24 +1,73 @@
 "use strict";
 
-var createError = require('http-errors');
-
 var express = require('express');
 
 var path = require('path');
+
+var mongoose = require('mongoose');
+
+var mongodb = require('mongodb');
 
 var cookieParser = require('cookie-parser');
 
 var logger = require('morgan');
 
+var passport = require('passport');
+
+var LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(function (username, password, done) {
+  Account.findOne({
+    username: username
+  }, function (err, user) {
+    if (err) {
+      return done(err);
+    }
+
+    if (!user) {
+      return done(null, false, {
+        message: 'Incorrect username.'
+      });
+    }
+
+    if (!user.validPassword(password)) {
+      return done(null, false, {
+        message: 'Incorrect password.'
+      });
+    }
+
+    return done(null, user);
+  });
+}));
+
+var ship = require("./models/ship");
+
+require('dotenv').config();
+
+var connectionString = process.env.MONGO_CON;
+mongoose = require('mongoose');
+mongoose.connect(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+var db = mongoose.connection; //Bind connection to error event
+
+db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
+db.once("open", function () {
+  console.log("Connection to DB succeeded");
+});
+
 var indexRouter = require('./routes/index');
 
 var usersRouter = require('./routes/users');
 
-var shipRouter = require('./routes/ship');
+var appRouter = require('./routes/ship');
 
-var boardRouter = require('./routes/board');
+var gridbuildRouter = require('./routes/gridbuild');
 
 var selectorRouter = require('./routes/selector');
+
+var resourceRouter = require('./routes/resource');
 
 var app = express(); // view engine setup
 
@@ -30,12 +79,84 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(cookieParser());
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express["static"](path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/ship', shipRouter);
-app.use('/board', boardRouter);
-app.use('/selector', selectorRouter); // catch 404 and forward to error handler
+app.use('/ship', appRouter);
+app.use('/gridbuild', gridbuildRouter);
+app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter); // passport config 
+// Use the existing connection 
+// The Account model  
+
+var Account = require('./models/account');
+
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser()); // We can seed the collection if needed on server start
+
+function recreateDB() {
+  var instance1, instance2, instance3;
+  return regeneratorRuntime.async(function recreateDB$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          _context.next = 2;
+          return regeneratorRuntime.awrap(ship.deleteMany());
+
+        case 2:
+          instance1 = new ship({
+            Model: "Hyndai Sonata",
+            yearofmanufacturing: 2018,
+            color: "Red"
+          });
+          instance1.save().then(function (doc) {
+            console.log("First ship details saved");
+          })["catch"](function (err) {
+            console.error(err);
+          });
+          instance2 = new ship({
+            Model: "crysler",
+            yearofmanufacturing: 2019,
+            color: "silver"
+          });
+          instance2.save().then(function (doc) {
+            console.log("Second ship details saved");
+          })["catch"](function (err) {
+            console.error(err);
+          });
+          instance3 = new ship({
+            Model: " Honda",
+            yearofmanufacturing: 2020,
+            color: " Blue"
+          });
+          instance3.save().then(function (doc) {
+            console.log("Third ship details saved");
+          })["catch"](function (err) {
+            console.error(err);
+          });
+
+        case 8:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
+}
+
+var reseed = true;
+
+if (reseed) {
+  recreateDB();
+} // catch 404 and forward to error handler
+
 
 app.use(function (req, res, next) {
   next(createError(404));
