@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  - let shipid = toShow._id
+  - let Model = toShow.Model
+  - let yearofmanufacturing = toShow.yearofmanufacturing
+  - let color = toShow.color
+  div
+    div.row
+      div(class='shipAttr mr-3') ship ID is:
+      div #{shipid}
+    div.row
+      div(class='shipAttr mr-3') Model is:
+      div #{Model}
+    div.row
+      div(class='shipAttr mr-3') yearofmanufacturing is:
+      div #{yearofmanufacturing}
+    div.row
+      div(class='shipAttr mr-3') color is:
+      div #{color}

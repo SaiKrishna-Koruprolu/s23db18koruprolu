@@ -24,6 +24,8 @@ router.get('/ships/:id', ship_controller.ship_detail); // GET request for list o
 
 router.get('/ships', ship_controller.ship_list); // GET request for one ship. 
 
-router.get('/ships/:id', ship_controller.ship_detail);
+router.get('/ships/:id', ship_controller.ship_detail); // /* GET detail ship page */
+
+router.get('/detail', ship_controller.ship_view_one_Page);
 module.exports = router;
 //# sourceMappingURL=resource.dev.js.map

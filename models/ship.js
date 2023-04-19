@@ -4,5 +4,4 @@ const shipSchema = mongoose.Schema({
  yearofmanufacturing: {type: String,required: [true, 'Number of the ship cannot be empty']},
  color: String
 })
-module.exports = mongoose.model("ship",
-shipSchema)
+module.exports = mongoose.model("ship",shipSchema)

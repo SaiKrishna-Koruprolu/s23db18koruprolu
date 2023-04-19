@@ -105,48 +105,75 @@ exports.ship_create_post = function _callee3(req, res) {
 }; // Handle ship delete form on DELETE.
 
 
-exports.ship_delete = function (req, res) {
-  res.send('NOT IMPLEMENTED: ship delete DELETE ' + req.params.id);
-}; //Handle ship update form on PUT. 
-
-
-exports.ship_update_put = function _callee4(req, res) {
-  var toUpdate, _result2;
-
+exports.ship_delete = function _callee4(req, res) {
   return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          console.log("update on id ".concat(req.params.id, " with body \n").concat(JSON.stringify(req.body)));
+          console.log("delete " + req.params.id);
           _context4.prev = 1;
           _context4.next = 4;
+          return regeneratorRuntime.awrap(ship.findByIdAndDelete(req.params.id));
+
+        case 4:
+          result = _context4.sent;
+          console.log("Removed " + result);
+          res.send(result);
+          _context4.next = 13;
+          break;
+
+        case 9:
+          _context4.prev = 9;
+          _context4.t0 = _context4["catch"](1);
+          res.status(500);
+          res.send("{\"error\": Error deleting ".concat(_context4.t0, "}"));
+
+        case 13:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  }, null, null, [[1, 9]]);
+}; //Handle ship update form on PUT
+
+
+exports.ship_update_put = function _callee5(req, res) {
+  var toUpdate, _result2;
+
+  return regeneratorRuntime.async(function _callee5$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          console.log("update on id ".concat(req.params.id, " with body\n    ").concat(JSON.stringify(req.body)));
+          _context5.prev = 1;
+          _context5.next = 4;
           return regeneratorRuntime.awrap(ship.findById(req.params.id));
 
         case 4:
-          toUpdate = _context4.sent;
-          // Do updates of properties 
-          if (req.body.Model) toUpdate.Model = req.body.Model;
+          toUpdate = _context5.sent;
+          // Do updates of properties
+          if (req.body.ship) toUpdate.Model = req.body.Model;
           if (req.body.yearofmanufacturing) toUpdate.yearofmanufacturing = req.body.yearofmanufacturing;
           if (req.body.color) toUpdate.color = req.body.color;
-          _context4.next = 10;
+          _context5.next = 10;
           return regeneratorRuntime.awrap(toUpdate.save());
 
         case 10:
-          _result2 = _context4.sent;
+          _result2 = _context5.sent;
           console.log("Sucess " + _result2);
           res.send(_result2);
-          _context4.next = 19;
+          _context5.next = 19;
           break;
 
         case 15:
-          _context4.prev = 15;
-          _context4.t0 = _context4["catch"](1);
+          _context5.prev = 15;
+          _context5.t0 = _context5["catch"](1);
           res.status(500);
-          res.send("{\"error\": ".concat(_context4.t0, ": Update for id ").concat(req.params.id, " \nfailed"));
+          res.send("{\"error\": ".concat(_context5.t0, ": Update for id ").concat(req.params.id, "\n    failed"));
 
         case 19:
         case "end":
-          return _context4.stop();
+          return _context5.stop();
       }
     }
   }, null, null, [[1, 15]]);
@@ -154,99 +181,99 @@ exports.ship_update_put = function _callee4(req, res) {
 // Handle a show all view
 
 
-exports.ship_view_all_Page = function _callee5(req, res) {
-  return regeneratorRuntime.async(function _callee5$(_context5) {
+exports.ship_view_all_Page = function _callee6(req, res) {
+  return regeneratorRuntime.async(function _callee6$(_context6) {
     while (1) {
-      switch (_context5.prev = _context5.next) {
+      switch (_context6.prev = _context6.next) {
         case 0:
-          _context5.prev = 0;
-          _context5.next = 3;
+          _context6.prev = 0;
+          _context6.next = 3;
           return regeneratorRuntime.awrap(ship.find());
 
         case 3:
-          theships = _context5.sent;
+          theships = _context6.sent;
           res.render('ship', {
             title: 'ship Search Results',
             results: theships
           });
-          _context5.next = 11;
+          _context6.next = 11;
           break;
 
         case 7:
-          _context5.prev = 7;
-          _context5.t0 = _context5["catch"](0);
+          _context6.prev = 7;
+          _context6.t0 = _context6["catch"](0);
           res.status(500);
-          res.send("{\"error\": ".concat(_context5.t0, "}"));
+          res.send("{\"error\": ".concat(_context6.t0, "}"));
 
         case 11:
         case "end":
-          return _context5.stop();
+          return _context6.stop();
       }
     }
   }, null, null, [[0, 7]]);
 }; // Handle ship delete on DELETE. 
 
 
-exports.ship_delete = function _callee6(req, res) {
-  return regeneratorRuntime.async(function _callee6$(_context6) {
+exports.ship_delete = function _callee7(req, res) {
+  return regeneratorRuntime.async(function _callee7$(_context7) {
     while (1) {
-      switch (_context6.prev = _context6.next) {
+      switch (_context7.prev = _context7.next) {
         case 0:
           console.log("delete " + req.params.id);
-          _context6.prev = 1;
-          _context6.next = 4;
+          _context7.prev = 1;
+          _context7.next = 4;
           return regeneratorRuntime.awrap(ship.findByIdAndDelete(req.params.id));
 
         case 4:
-          result = _context6.sent;
+          result = _context7.sent;
           console.log("Removed " + result);
           res.send(result);
-          _context6.next = 13;
+          _context7.next = 13;
           break;
 
         case 9:
-          _context6.prev = 9;
-          _context6.t0 = _context6["catch"](1);
+          _context7.prev = 9;
+          _context7.t0 = _context7["catch"](1);
           res.status(500);
-          res.send("{\"error\": Error deleting ".concat(_context6.t0, "}"));
+          res.send("{\"error\": Error deleting ".concat(_context7.t0, "}"));
 
         case 13:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
     }
   }, null, null, [[1, 9]]);
 }; // Handle a show one view with id specified by query 
 
 
-exports.ship_view_one_Page = function _callee7(req, res) {
-  return regeneratorRuntime.async(function _callee7$(_context7) {
+exports.ship_view_one_Page = function _callee8(req, res) {
+  return regeneratorRuntime.async(function _callee8$(_context8) {
     while (1) {
-      switch (_context7.prev = _context7.next) {
+      switch (_context8.prev = _context8.next) {
         case 0:
           console.log("single view for id " + req.query.id);
-          _context7.prev = 1;
-          _context7.next = 4;
+          _context8.prev = 1;
+          _context8.next = 4;
           return regeneratorRuntime.awrap(ship.findById(req.query.id));
 
         case 4:
-          result = _context7.sent;
+          result = _context8.sent;
           res.render('shipdetail', {
             title: 'ship Detail',
             toShow: result
           });
-          _context7.next = 12;
+          _context8.next = 12;
           break;
 
         case 8:
-          _context7.prev = 8;
-          _context7.t0 = _context7["catch"](1);
+          _context8.prev = 8;
+          _context8.t0 = _context8["catch"](1);
           res.status(500);
-          res.send("{'error': '".concat(_context7.t0, "'}"));
+          res.send("{'error': '".concat(_context8.t0, "'}"));
 
         case 12:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
     }
   }, null, null, [[1, 8]]);
@@ -270,57 +297,23 @@ exports.ship_create_Page = function (req, res) {
 // query provides the id 
 
 
-exports.ship_update_Page = function _callee8(req, res) {
+exports.ship_update_Page = function _callee9(req, res) {
   var _result3;
 
-  return regeneratorRuntime.async(function _callee8$(_context8) {
-    while (1) {
-      switch (_context8.prev = _context8.next) {
-        case 0:
-          console.log("update view for item " + req.query.id);
-          _context8.prev = 1;
-          _context8.next = 4;
-          return regeneratorRuntime.awrap(ship.findById(req.query.id));
-
-        case 4:
-          _result3 = _context8.sent;
-          res.render('shipupdate', {
-            title: 'ship Update',
-            toShow: _result3
-          });
-          _context8.next = 12;
-          break;
-
-        case 8:
-          _context8.prev = 8;
-          _context8.t0 = _context8["catch"](1);
-          res.status(500);
-          res.send("{'error': '".concat(_context8.t0, "'}"));
-
-        case 12:
-        case "end":
-          return _context8.stop();
-      }
-    }
-  }, null, null, [[1, 8]]);
-}; // Handle a delete one view with id from query 
-
-
-exports.ship_delete_Page = function _callee9(req, res) {
   return regeneratorRuntime.async(function _callee9$(_context9) {
     while (1) {
       switch (_context9.prev = _context9.next) {
         case 0:
-          console.log("Delete view for id " + req.query.id);
+          console.log("update view for item " + req.query.id);
           _context9.prev = 1;
           _context9.next = 4;
           return regeneratorRuntime.awrap(ship.findById(req.query.id));
 
         case 4:
-          result = _context9.sent;
-          res.render('shipdelete', {
-            title: 'ship Delete',
-            toShow: result
+          _result3 = _context9.sent;
+          res.render('shipupdate', {
+            title: 'ship Update',
+            toShow: _result3
           });
           _context9.next = 12;
           break;
@@ -334,6 +327,105 @@ exports.ship_delete_Page = function _callee9(req, res) {
         case 12:
         case "end":
           return _context9.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
+}; // Handle a delete one view with id from query 
+
+
+exports.ship_delete_Page = function _callee10(req, res) {
+  return regeneratorRuntime.async(function _callee10$(_context10) {
+    while (1) {
+      switch (_context10.prev = _context10.next) {
+        case 0:
+          console.log("Delete view for id " + req.query.id);
+          _context10.prev = 1;
+          _context10.next = 4;
+          return regeneratorRuntime.awrap(ship.findById(req.query.id));
+
+        case 4:
+          result = _context10.sent;
+          res.render('shipdelete', {
+            title: 'ship Delete',
+            toShow: result
+          });
+          _context10.next = 12;
+          break;
+
+        case 8:
+          _context10.prev = 8;
+          _context10.t0 = _context10["catch"](1);
+          res.status(500);
+          res.send("{'error': '".concat(_context10.t0, "'}"));
+
+        case 12:
+        case "end":
+          return _context10.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
+}; // for a specific ship.
+
+
+exports.ship_detail = function _callee11(req, res) {
+  return regeneratorRuntime.async(function _callee11$(_context11) {
+    while (1) {
+      switch (_context11.prev = _context11.next) {
+        case 0:
+          console.log("detail" + req.params.id);
+          _context11.prev = 1;
+          _context11.next = 4;
+          return regeneratorRuntime.awrap(ship.findById(req.params.id));
+
+        case 4:
+          result = _context11.sent;
+          res.send(result);
+          _context11.next = 12;
+          break;
+
+        case 8:
+          _context11.prev = 8;
+          _context11.t0 = _context11["catch"](1);
+          res.status(500);
+          res.send("{\"error\": document for id ".concat(req.params.id, " not found"));
+
+        case 12:
+        case "end":
+          return _context11.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
+}; // Handle a show one view with id specified by query
+
+
+exports.ship_view_one_Page = function _callee12(req, res) {
+  return regeneratorRuntime.async(function _callee12$(_context12) {
+    while (1) {
+      switch (_context12.prev = _context12.next) {
+        case 0:
+          console.log("single view for id " + req.query.id);
+          _context12.prev = 1;
+          _context12.next = 4;
+          return regeneratorRuntime.awrap(ship.findById(req.query.id));
+
+        case 4:
+          result = _context12.sent;
+          res.render('shipdetail', {
+            title: 'ship Detail',
+            toShow: result
+          });
+          _context12.next = 12;
+          break;
+
+        case 8:
+          _context12.prev = 8;
+          _context12.t0 = _context12["catch"](1);
+          res.status(500);
+          res.send("{'error': '".concat(_context12.t0, "'}"));
+
+        case 12:
+        case "end":
+          return _context12.stop();
       }
     }
   }, null, null, [[1, 8]]);
