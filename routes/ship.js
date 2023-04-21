@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
-// var ship_controller = require("../controllers/ship")
+var ship_controller = require("../controllers/ship")
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    let query = req.query
-    console.log(`rows ${query.rows}`)
-    console.log(`cols ${query.cols}`)
-    res.render('ship', { title: 'Grid Build',query: query });
-});
+router.get('/', ship_controller.ship_view_all_Page);
 /* GET detail ship page */
-// router.get('/detail', ship_controller.ship_view_one_Page);
+router.post('/create', ship_controller.ship_create_post);
 module.exports = router;
+/* GET create update page */
+router.get('/update', ship_controller.ship_update_Page);
+/* GET delete ship page */
+router.get('/delete', ship_controller.ship_delete_Page);

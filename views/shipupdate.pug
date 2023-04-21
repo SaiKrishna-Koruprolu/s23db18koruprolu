@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  h1= title
+  - let shipid = toShow._id
+  - let Model = toShow.Model
+  - let yearofmanufacturing = toShow.yearofmanufacturing
+  - let color = toShow.color
+
+  div.row(class='mb-2')
+    div.mr-1 ID is
+    div #{shipid}
+
+  - let actionid = "/resource/ships/" + shipid
+  form(id='shipForm', action= actionid, method="PUT")
+    div.form-group
+      label.shipAttr(for='Model') ship Model
+      input#Model(type='text', name='Model', value= Model )
+    div.form-group
+      label.shipAttr(for='yearofmanufacturing') ship yearofmanufacturing
+      input#yearofmanufacturing(type='number', name='yearofmanufacturing', value= yearofmanufacturing )
+    div.form-group
+      label.shipAttr(for='color') ship color
+      input#color(type='text', name='color', value= color )
+    input(type="submit")
+
+  script.
+    document.forms['shipForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Update succeeded")
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Update failed " + error )
+      });
+    });

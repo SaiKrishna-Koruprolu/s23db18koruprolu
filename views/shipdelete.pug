@@ -1,0 +1,50 @@
+extends layout
+block content
+  h1= title
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let shipid = toShow._id
+    - let Model = toShow.Model
+    - let yearofmanufacturing = toShow.yearofmanufacturing
+    - let color = toShow.color
+    - let actionid = "/resource/ships/" + shipid
+    script.
+      let action = "#{actionid}"
+    div
+      div.row
+        div(class='shipAttr mr-3') ship ID is:
+        div #{shipid}
+      div.row
+        div(class='shipAttr mr-3') ship Model is:
+        div #{Model}
+      div.row
+        div(class='shipAttr mr-3') ship yearofmanufacturing is:
+        div #{yearofmanufacturing}
+      div.row
+        div(class='shipAttr mr-3') ship color is:
+        div #{color}
+      button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+      button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+    script.
+      function cancel() {
+        // Go back to the home page for the ship collection
+        window.location.href='/ships'
+      }
+    script.
+      function deleteOnid() {
+        console.log("starting delete")
+        // delete first
+        fetch(action, {
+          method: 'DELETE' // Don't need a body for the delete
+        }).then((resp) => {
+          return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+          alert("Delete succeded")
+          window.location.href='/ships'
+          // TODO handle body
+        }).catch((error) => {
+          // TODO handle error
+          alert("Delete failed " + error )
+        });
+      }

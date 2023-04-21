@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, shrink-to-fit=no"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+  </head>
+  <body>
+    <h1></h1>
+    <form id="shipForm" action="/resource/ship" method="POST">
+      <div class="form-group">
+        <label class="shipAttr" for="Model">ship Model</label>
+        <input id="Model" type="text" name="Model">
+      </div>
+      <div class="form-group">
+        <label class="shipAttr" for="yearofmanufacturing">ship yearofmanufacturing</label>
+        <input id="yearofmanufacturing" type="number" name="yearofmanufacturing">
+      </div>
+      <div class="form-group">
+        <label class="shipAttr" for="color">ship type</label>
+        <input id="color" type="text" name="color">
+      </div>
+      <input type="submit">
+      <script>
+        document.forms['shipForm'].addEventListener('submit', (event) => {
+          event.preventDefault();
+          // TODO do something here to show user that form is being submitted
+          fetch(event.target.action, {
+            method: 'POST',
+            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+          }).then((resp) => {
+            return resp.json(); // or resp.text() or whatever the server sends
+          }).then((body) => {
+            alert("Save succeeded");
+            // TODO handle body
+          }).catch((error) => {
+            // TODO handle error
+            alert("Save failed " + error );
+          });
+        });
+      </script>
+    </form>
+  </body>
+</html>

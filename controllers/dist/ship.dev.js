@@ -429,5 +429,92 @@ exports.ship_view_one_Page = function _callee12(req, res) {
       }
     }
   }, null, null, [[1, 8]]);
+}; // Handle building the view for creating a ship.
+// No body, no in path parameter, no query.
+// Does not need to be async
+
+
+exports.ship_create_Page = function (req, res) {
+  console.log("create view");
+
+  try {
+    res.render('shipcreate', {
+      title: 'ship Create'
+    });
+  } catch (err) {
+    res.status(500);
+    res.send("{'error': '".concat(err, "'}"));
+  }
+}; // Handle building the view for updating a ship.
+// query provides the id
+
+
+exports.ship_update_Page = function _callee13(req, res) {
+  var _result4;
+
+  return regeneratorRuntime.async(function _callee13$(_context13) {
+    while (1) {
+      switch (_context13.prev = _context13.next) {
+        case 0:
+          console.log("update view for item " + req.query.id);
+          _context13.prev = 1;
+          _context13.next = 4;
+          return regeneratorRuntime.awrap(ship.findById(req.query.id));
+
+        case 4:
+          _result4 = _context13.sent;
+          res.render('shipupdate', {
+            title: 'ship Update',
+            toShow: _result4
+          });
+          _context13.next = 12;
+          break;
+
+        case 8:
+          _context13.prev = 8;
+          _context13.t0 = _context13["catch"](1);
+          res.status(500);
+          res.send("{'error': '".concat(_context13.t0, "'}"));
+
+        case 12:
+        case "end":
+          return _context13.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
+}; // Handle a delete one view with id from query
+
+
+exports.ship_delete_Page = function _callee14(req, res) {
+  return regeneratorRuntime.async(function _callee14$(_context14) {
+    while (1) {
+      switch (_context14.prev = _context14.next) {
+        case 0:
+          console.log("Delete view for id " + req.query.id);
+          _context14.prev = 1;
+          _context14.next = 4;
+          return regeneratorRuntime.awrap(ship.findById(req.query.id));
+
+        case 4:
+          result = _context14.sent;
+          res.render('shipdelete', {
+            title: 'ship Delete',
+            toShow: result
+          });
+          _context14.next = 12;
+          break;
+
+        case 8:
+          _context14.prev = 8;
+          _context14.t0 = _context14["catch"](1);
+          res.status(500);
+          res.send("{'error': '".concat(_context14.t0, "'}"));
+
+        case 12:
+        case "end":
+          return _context14.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
 };
 //# sourceMappingURL=ship.dev.js.map

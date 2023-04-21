@@ -14,7 +14,7 @@ var ship_controller = require('../controllers/ship'); // A little function to ch
 router.get('/', api_controller.api); /// ship ROUTES ///
 // POST request for creating a ship.  
 
-router.post('/ships', ship_controller.ship_create_post); // DELETE request to delete ship.
+router.post('/ships/create', ship_controller.ship_create_post); // DELETE request to delete ship.
 
 router["delete"]('/ships/:id', ship_controller.ship_delete); // PUT request to update ship.
 
@@ -27,5 +27,8 @@ router.get('/ships', ship_controller.ship_list); // GET request for one ship.
 router.get('/ships/:id', ship_controller.ship_detail); // /* GET detail ship page */
 
 router.get('/detail', ship_controller.ship_view_one_Page);
+/* GET create ship page */
+
+router.get('/create', ship_controller.ship_create_Page);
 module.exports = router;
 //# sourceMappingURL=resource.dev.js.map
