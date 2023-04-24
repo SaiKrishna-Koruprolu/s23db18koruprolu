@@ -14,6 +14,8 @@ var createError = require('http-errors');
 
 var cookieParser = require('cookie-parser');
 
+var Account = require('./models/account');
+
 var passportLocalMongoose = require('passport-local-mongoose');
 
 var logger = require('morgan');
@@ -21,30 +23,6 @@ var logger = require('morgan');
 var passport = require('passport');
 
 var LocalStrategy = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy(function (username, password, done) {
-  Account.findOne({
-    username: username
-  }, function (err, user) {
-    if (err) {
-      return done(err);
-    }
-
-    if (!user) {
-      return done(null, false, {
-        message: 'Incorrect username.'
-      });
-    }
-
-    if (!user.validPassword(password)) {
-      return done(null, false, {
-        message: 'Incorrect password.'
-      });
-    }
-
-    return done(null, user);
-  });
-}));
 
 var ship = require("./models/ship");
 
@@ -74,7 +52,30 @@ var selectorRouter = require('./routes/selector');
 
 var resourceRouter = require('./routes/resource');
 
-var app = express(); // view engine setup
+var app = express();
+passport.use(new LocalStrategy(function (username, password, done) {
+  Account.findOne({
+    username: username
+  }, function (err, user) {
+    if (err) {
+      return done(err);
+    }
+
+    if (!user) {
+      return done(null, false, {
+        message: 'Incorrect username.'
+      });
+    }
+
+    if (!user.validPassword(password)) {
+      return done(null, false, {
+        message: 'Incorrect password.'
+      });
+    }
+
+    return done(null, user);
+  });
+})); // view engine setup
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -100,8 +101,6 @@ app.use('/selector', selectorRouter);
 app.use('/resource', resourceRouter); // passport config 
 // Use the existing connection 
 // The Account model  
-
-var Account = require('./models/account');
 
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
