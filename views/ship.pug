@@ -1,15 +1,19 @@
 extends layout
 
-
 block content
   h1= title
   -let items = results
+  button.btn( class="btn-info", onclick="dispatch('/ship/create')") Create new ship
   div(class="container-fluid")
    div(class="row m-1")
     each item in items
-     - let destination = `dispatch(\"/ship/update?id=${item._id}\")`
-     div(class="row-sm-2", class="m-1") Item #{item.Model}(#{item.yearofmanufacturing}) is #{item.color}
-      button.btn( class="btn-primary ml-1", onclick= destination) Update
+     - let detail = `dispatch(\"/ship/detail?id=${item._id}\")`
+     - let deleteship = `dispatch(\"/ship/delete?id=${item._id}\")`     
+     - let update = `dispatch(\"/ship/update?id=${item._id}\")` 
+     div(class="row-sm-2", class="m-1") Ship #{item.Model}(#{item.yearofmanufacturing}) is #{item.color}
+      button.btn( class="btn-primary ml-1", onclick= update) Update
+      button.btn( class="btn-secondary ml-1", onclick= detail) Detail
+      button.btn( class="btn-danger ml-1", onclick= deleteship) Delete
 
   script.
    function dispatch(path){

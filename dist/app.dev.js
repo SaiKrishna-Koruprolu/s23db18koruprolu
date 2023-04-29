@@ -56,7 +56,7 @@ var app = express();
 passport.use(new LocalStrategy(function (username, password, done) {
   Account.findOne({
     username: username
-  }, function (err, user) {
+  }).then(function (user) {
     if (err) {
       return done(err);
     }
@@ -74,6 +74,8 @@ passport.use(new LocalStrategy(function (username, password, done) {
     }
 
     return done(null, user);
+  })["catch"](function (err) {
+    return done(err);
   });
 })); // view engine setup
 

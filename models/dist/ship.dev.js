@@ -8,8 +8,10 @@ var shipSchema = mongoose.Schema({
     required: [true, 'Model of the ship cannot be empty']
   },
   yearofmanufacturing: {
-    type: String,
-    required: [true, 'Number of the ship cannot be empty']
+    type: Number,
+    required: [true, 'Year of manufacturing of the ship cannot be empty'],
+    min: [1900, 'Year of manufacturing of the ship should be at least 1900'],
+    max: [new Date().getFullYear(), 'Year of manufacturing of the ship should not be in the future']
   },
   color: String
 });

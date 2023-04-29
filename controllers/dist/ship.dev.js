@@ -516,5 +516,39 @@ exports.ship_delete_Page = function _callee14(req, res) {
       }
     }
   }, null, null, [[1, 8]]);
+}; // Handle a show one view with id specified by query
+
+
+exports.ship_view_one_Page = function _callee15(req, res) {
+  return regeneratorRuntime.async(function _callee15$(_context15) {
+    while (1) {
+      switch (_context15.prev = _context15.next) {
+        case 0:
+          console.log("single view for id " + req.query.id);
+          _context15.prev = 1;
+          _context15.next = 4;
+          return regeneratorRuntime.awrap(ship.findById(req.query.id));
+
+        case 4:
+          result = _context15.sent;
+          res.render('shipdetail', {
+            title: 'ship Detail',
+            toShow: result
+          });
+          _context15.next = 12;
+          break;
+
+        case 8:
+          _context15.prev = 8;
+          _context15.t0 = _context15["catch"](1);
+          res.status(500);
+          res.send("{'error': '".concat(_context15.t0, "'}"));
+
+        case 12:
+        case "end":
+          return _context15.stop();
+      }
+    }
+  }, null, null, [[1, 8]]);
 };
 //# sourceMappingURL=ship.dev.js.map
